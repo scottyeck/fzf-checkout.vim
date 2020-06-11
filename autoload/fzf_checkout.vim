@@ -81,7 +81,7 @@ function! fzf_checkout#list(bang, type)
   " Filter to delete the current/previous ref, and HEAD from the list.
   let l:color_seq = '\x1b\[1;33m'  " \x1b[1;33mbranch/name
   let l:filter =
-        \ 'sed -r ' .
+        \ 'gsed -r ' .
         \ '-e "/^' . l:color_seq . l:current_escaped . '\s.*$/d" ' .
         \ '-e "/^' . l:color_seq . l:previous_escaped . '\s.*$/d" ' .
         \ '-e "/^' . l:color_seq . '(origin\/HEAD)|(\(HEAD)/d"'
@@ -92,7 +92,7 @@ function! fzf_checkout#list(bang, type)
   let l:source =
         \ 'printf "$(' . l:git_cmd . ' --list ' . l:previous . ')"\\n' .
         \ '"$(' . l:git_cmd . ' | ' . l:filter . ')" | ' .
-        \ ' sed "/^\s*$/d"'
+        \ ' gsed "/^\s*$/d"'
   call fzf#run(fzf#wrap(
         \ l:name,
         \ {
